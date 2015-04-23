@@ -1,0 +1,20 @@
+<Solution>
+  <PropertyGroup Name="OSG-Client-Html5" Version="2.1.0.0" Type="CocosStudio" />
+  <SolutionFolder>
+    <Group ctype="ResourceGroup">
+      <RootFolder Name=".">
+        <Folder Name="Image">
+          <Folder Name="Login">
+            <Image Name="BaS31.png" />
+            <Image Name="BaS32.png" />
+            <Image Name="Frd11.png" />
+            <Image Name="LI01.png" />
+            <Image Name="LI02.png" />
+            <Image Name="LI07.jpg" />
+          </Folder>
+        </Folder>
+        <Project Name="Login.csd" />
+      </RootFolder>
+    </Group>
+  </SolutionFolder>
+</Solution>
