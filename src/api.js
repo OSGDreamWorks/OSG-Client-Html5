@@ -38,17 +38,18 @@ function API() {
             this.socket.send(send.buffer);
 	};
 	this.OnSyncLoginInfo = function(msg) {
-			clearInterval(this.timeId);
-			if(this.socket != null)this.socket.close();
-            this.socket = new WebSocket("ws://"+msg.serverIp);
-            this.socket.onopen = function(evt) {
+			clearInterval(api.timeId);
+			if(api.socket != null)api.socket.close();
+            api.socket = new WebSocket("ws://"+msg.serverIp);
+            api.socket.onopen = function(evt) {
             	cc.log("onopen");
-	            var account = localStorage.getItem("tf_Account");
-	            var password = localStorage.getItem("tf_Passwd");
-	            api.APILogin(account, password);
-	        	api.timeId = setInterval(function (){api.APIPing()},1000);
+            	setTimeout(function(){
+		            var account = localStorage.getItem("tf_Account");
+		            var password = localStorage.getItem("tf_Passwd");
+		            api.APILogin(account, password);
+            	}, 500);
             };
-            this.socket.onmessage = function(evt) {
+            api.socket.onmessage = function(evt) {
 				var fileReader     = new FileReader();
 				fileReader.onload  = function(progressEvent) {
 				    api.onmessage(this.result);
@@ -56,19 +57,30 @@ function API() {
 				fileReader.readAsArrayBuffer(evt.data);
 				fileReader.result;
             };
-            this.socket.onerror = function(evt) {
+            api.socket.onerror = function(evt) {
 				clearInterval(api.timeId);
             };
-            this.socket.onclose = function(evt) {
+            api.socket.onclose = function(evt) {
             	cc.log("_wsiError websocket instance closed.");
 				clearInterval(api.timeId);
             };
+	};
+	this.OnSyncLoginResult = function(msg) {
+			cc.log("OnSyncLoginResult : " + msg.sessionKey)
+	        api.timeId = setInterval(function (){api.APIPing()},1000);	
+	};
+	this.OnSyncPingResult = function(msg) {
+			cc.log("OnSyncPingResult : " + msg.server_time)
 	};
 	this.connect = function(ip) {
 			clearInterval(this.timeId);
 			if(this.socket != null)this.socket.close();
             this.socket = new WebSocket(ip);
             this.socket.onmessage = function(evt) {
+				if(api.socket != null){
+					api.socket.close();
+					api.socket = null;
+				}
 				var fileReader     = new FileReader();
 				fileReader.onload  = function(progressEvent) {
 				    api.onmessage(this.result);
@@ -77,7 +89,7 @@ function API() {
 				fileReader.result;
             };
             this.socket.onclose = function(evt) {
-            	cc.log("_wsiError websocket instance closed.");
+            	cc.log("gate Connector closed.");
             };
 	};
 	this.onmessage = function(arrayBuffer) {
