@@ -2,6 +2,7 @@ function API() {
 	this.socket = null;
 	this.req_id = 0;
 	this.timeId = 0;
+	this.player = null;
 	// 用户系统设计api
 	// 1 OK
 	this.APIPing = function() {
@@ -68,6 +69,10 @@ function API() {
 	this.OnSyncLoginResult = function(msg) {
 			cc.log("OnSyncLoginResult : " + msg.sessionKey)
 	        api.timeId = setInterval(function (){api.APIPing()},1000);	
+	        api.player = new _root.protobuf.PlayerBaseInfo()
+	        api.player.uid = msg.uid
+	        api.player.name = ""
+	        api.APIUpdatePlayerInfo()
 	};
 	this.OnSyncPingResult = function(msg) {
 			cc.log("OnSyncPingResult : " + msg.server_time)
@@ -110,5 +115,22 @@ function API() {
 	        return s ? "-" + p.substr(0,4) + "-" + p.substr(4,4) : p ;
 	    }
 	    return _p8() + _p8(true) + _p8();
+	};
+
+
+	this.APIUpdatePlayerInfo = function() {
+			this.req_id++;
+			var info = api.player
+			var bufferRequest = info.encode()
+			var request = new _root.protobuf.Request({"id":this.req_id,"method":"Connector.UpdatePlayerInfo","serialized_request":bufferRequest.toArrayBuffer()})
+			var buffer = request.encode()
+			var send = new ProtoBuf.ByteBuffer(buffer.limit+4,ProtoBuf.ByteBuffer.LITTLE_ENDIAN);
+			send.writeInt32(buffer.limit);
+			send.append(buffer)
+            this.socket.send(send.buffer);
+	};
+	this.OnSyncPlayerBaseInfo = function(msg) {
+			cc.log("OnSyncUpdatePlayerInfo : " + msg.name)
+			api.player = msg
 	};
 }
