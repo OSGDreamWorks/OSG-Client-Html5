@@ -1,6 +1,10 @@
 <UserData>
   <OpenedDocuments>
     <FilePathData Path="Login.csd" />
+    <FilePathData Path="MainMenu.csd" />
+    <FilePathData Path="MainScreen.csd" />
+    <FilePathData Path="PlayerStats.csd" />
+    <FilePathData Path="AltarScene.csd" />
   </OpenedDocuments>
   <ActiveDocument Path="Login.csd" />
 </UserData>

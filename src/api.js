@@ -3,6 +3,7 @@ function API() {
 	this.req_id = 0;
 	this.timeId = 0;
 	this.player = null;
+	this.delegate = null;
 	// 用户系统设计api
 	// 1 OK
 	this.APIPing = function() {
@@ -67,12 +68,26 @@ function API() {
             };
 	};
 	this.OnSyncLoginResult = function(msg) {
-			cc.log("OnSyncLoginResult : " + msg.sessionKey)
-	        api.timeId = setInterval(function (){api.APIPing()},1000);	
-	        api.player = new _root.protobuf.PlayerBaseInfo()
-	        api.player.uid = msg.uid
-	        api.player.name = ""
-	        api.APIUpdatePlayerInfo()
+
+		switch (msg.result) 
+		{
+			case _root.protobuf.LoginResult.Result.OK:
+				cc.log("OnSyncLoginResult : " + msg.sessionKey)
+		        api.timeId = setInterval(function (){api.APIPing()},1000);	
+		        api.player = new _root.protobuf.PlayerBaseInfo()
+		        api.player.uid = msg.uid
+		        api.player.name = ""
+		        api.APIUpdatePlayerInfo()
+				break;
+			case _root.protobuf.LoginResult.Result.SERVERERROR:
+			case _root.protobuf.LoginResult.Result.USERNOTFOUND:
+			case _root.protobuf.LoginResult.Result.AUTH_FAILED:
+			case _root.protobuf.LoginResult.Result.ISONFIRE:
+			default:
+            	cc.log("login error code : " + msg.result);
+				clearInterval(api.timeId);
+				break;
+		}
 	};
 	this.OnSyncPingResult = function(msg) {
 			cc.log("OnSyncPingResult : " + msg.server_time)
@@ -97,6 +112,10 @@ function API() {
             	cc.log("gate Connector closed.");
             };
 	};
+	this.disconnect = function() {
+			clearInterval(this.timeId);
+			if(this.socket != null)this.socket.close();
+	};
 	this.onmessage = function(arrayBuffer) {
 		var uint8ArrayLength  = new Uint8Array(arrayBuffer.slice(0, 3));
 		var uint8ArrayData  = new Uint8Array(arrayBuffer.slice(4, arrayBuffer.byteLength));
@@ -106,8 +125,16 @@ function API() {
 		var req = _root.protobuf.Request.decode(response.toArrayBuffer());
 		var msgArr = req.method.split('.');
 		var msg = _root.protobuf[msgArr[msgArr.length-1]].decode(req.serialized_request);
-		var func = this["OnSync"+msgArr[msgArr.length-1]];
+		var funcName = "OnSync"+msgArr[msgArr.length-1];
+		var func = this[funcName];
 		if(func && typeof(func) === "function")func(msg);
+		if(this.delegate!=null) {
+			var callback = this.delegate[funcName];
+			if(callback && typeof(callback) === "function")callback(msg);
+		}
+	};
+	this.SetDelegate = function(delegate) {
+		this.delegate = delegate;
 	};
 	this.udid = function() {
 	    function _p8(s) {

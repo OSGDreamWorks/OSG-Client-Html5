@@ -81,8 +81,8 @@
             "TouchEnable": true,
             "Tag": 25,
             "PrePosition": {
-              "X": 0.0,
-              "Y": 0.0
+              "X": 0.5104,
+              "Y": 0.2465
             },
             "PreSize": {
               "X": 0.0,
@@ -90,14 +90,14 @@
             },
             "HorizontalEdge": "BothEdge",
             "VerticalEdge": "BothEdge",
-            "LeftMargin": 202.0,
-            "RightMargin": -442.0,
-            "TopMargin": -242.5,
-            "BottomMargin": 161.5,
+            "LeftMargin": 206.6675,
+            "RightMargin": 193.3325,
+            "TopMargin": 682.834,
+            "BottomMargin": 196.166,
             "ActionTag": 1073031336,
             "Position": {
-              "X": 322.0,
-              "Y": 202.0
+              "X": 326.6675,
+              "Y": 236.666
             },
             "Scale": {
               "ScaleX": 1.0,
@@ -563,11 +563,11 @@
         "AnchorPoint": {},
         "CColor": {},
         "Size": {
-          "X": 0.0,
-          "Y": 0.0
+          "X": 640.0,
+          "Y": 960.0
         },
         "FrameEvent": "",
-        "Name": "Node",
+        "Name": "Scene",
         "ctype": "SingleNodeObjectData"
       },
       "ctype": "GameProjectData"

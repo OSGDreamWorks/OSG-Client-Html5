@@ -4,6 +4,7 @@ var ProtoBuf = null;
 cc.loader.loadJs("src", [
     "api.js",
     "login/LoginScene.js",
+    "mainscreen/MainScreenScene.js",
     "Long.js",
     "ByteBuffer.js",
     "ProtoBuf.js",

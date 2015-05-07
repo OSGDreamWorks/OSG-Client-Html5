@@ -12,8 +12,86 @@
             <Image Name="LI02.png" />
             <Image Name="LI07.jpg" />
           </Folder>
+          <Folder Name="AltarScene">
+            <File Name="AltarScene.csb" />
+            <Image Name="bg_tree01.png" />
+            <Image Name="bg_tree02.png" />
+            <Image Name="bg_tree03.png" />
+            <Image Name="guard01.png" />
+            <Image Name="guard02.png" />
+            <Image Name="lv1-1.PNG" />
+            <Image Name="lv10_3.png" />
+            <Image Name="lv10_5.png" />
+            <Image Name="lv10_chengqiang.png" />
+            <Image Name="lv10_fangzi.png" />
+            <Image Name="lv10_fangzi_down.png" />
+            <Image Name="lv10_tielian.png" />
+            <Image Name="lv1qiang.png" />
+            <Image Name="lv2-1.PNG" />
+            <Image Name="lv2-2.PNG" />
+            <Image Name="lv2_3.png" />
+            <Image Name="lv3-1.png" />
+            <Image Name="lv3_1(lv4_1).png" />
+            <Image Name="lv4-1.png" />
+            <Image Name="lv5-1.png" />
+            <Image Name="lv5_1.png" />
+            <Image Name="lv6_1.png" />
+            <Image Name="lv9_1.png" />
+            <Image Name="LV9_4.png" />
+            <Image Name="staging.png" />
+          </Folder>
+          <Folder Name="Common">
+            <Image Name="Cn01.png" />
+            <Image Name="Cn02.png" />
+            <Image Name="Cn03.png" />
+            <Image Name="Cn04.png" />
+            <Image Name="Cn05.png" />
+            <Image Name="Cn06.png" />
+            <Image Name="Cn07.png" />
+            <Image Name="Cn08.png" />
+            <Image Name="Cn09.png" />
+            <Image Name="Cn10.png" />
+            <Image Name="Cn11.png" />
+            <Image Name="Cn12.png" />
+            <Image Name="Cn14.png" />
+            <Image Name="Cn15.png" />
+            <Image Name="Cn16.png" />
+            <Image Name="Cn17.png" />
+            <Image Name="Cn19.png" />
+            <Image Name="Cn20.png" />
+            <Image Name="Cn21.png" />
+          </Folder>
+          <Folder Name="MainMenu">
+            <Image Name="MM01.png" />
+            <Image Name="MM02.png" />
+            <Image Name="MM03.png" />
+            <Image Name="MM04.png" />
+            <Image Name="MM05.png" />
+            <Image Name="MM06.png" />
+            <Image Name="MM07.png" />
+            <Image Name="MM08.png" />
+            <Image Name="MM09.png" />
+            <Image Name="MM10.png" />
+            <Image Name="MM12.png" />
+            <Image Name="MM13.png" />
+            <Image Name="MM14.png" />
+            <Image Name="MM15.png" />
+            <Image Name="MM16.png" />
+            <Image Name="MM17.png" />
+            <Image Name="MM18.png" />
+            <Image Name="MM19.png" />
+            <Image Name="MM20.png" />
+            <Image Name="MM21.png" />
+            <Image Name="MM22.png" />
+            <Image Name="MM23.png" />
+            <Image Name="MM24.png" />
+          </Folder>
         </Folder>
         <Project Name="Login.csd" />
+        <Project Name="AltarScene.csd" />
+        <Project Name="MainMenu.csd" />
+        <Project Name="MainScreen.csd" />
+        <Project Name="PlayerStats.csd" />
       </RootFolder>
     </Group>
   </SolutionFolder>

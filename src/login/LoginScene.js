@@ -1,4 +1,3 @@
-var ws = null;
 var LoginLayer = cc.Layer.extend({
     tf_Account:null,
     tf_Passwd:null,
@@ -76,60 +75,26 @@ var LoginLayer = cc.Layer.extend({
             else {
                 localStorage.setItem("tf_Account", account);
                 localStorage.setItem("tf_Passwd", password);
+                api.SetDelegate(self)
                 api.connect("ws://127.0.0.1:7880");
             }
         });
-
-        // var bt_Connect = mainscene.node.getChildByTag(4);
-        // bt_Connect.addClickEventListener(function(sender){
-
-        //     self.socket = new WebSocket("ws://127.0.0.1:7980");
-        //     api.socket = self.socket;
-        //     api.req_id = 0;
-        //     self.socket.onopen = function(evt) {
-        //         self.onopen(evt);
-        //         clearInterval(self.timeId);
-        //         self.timeId = setInterval(function (){api.APIPing()},1000);
-        //     };
-        //     self.socket.onmessage = function(evt) {
-        //         self.onmessage(evt);
-        //         self.lb_Name.setString("an message was fired");;
-        //         self.lb_Name.ignoreContentAdaptWithSize(true);
-        //     };
-        //     self.socket.onerror = function(evt) {
-        //         cc.log("Error was fired");
-        //         self.lb_Name.setString("an error was fired");;
-        //         self.lb_Name.ignoreContentAdaptWithSize(true);
-        //     };
-        //     self.socket.onclose = function(evt) {
-        //         cc.log("_wsiError websocket instance closed.");
-        //         clearInterval(self.timeId);
-        //         self.lb_Name.setString("an close was fired");;
-        //         self.lb_Name.ignoreContentAdaptWithSize(true);
-        //     };
-        //     ws = self.socket;
-        // });
-        
-        // var bt_Close = mainscene.node.getChildByTag(6);
-        // bt_Close.addClickEventListener(function(sender){
-        //     clearInterval(self.timeId);
-        //     self.socket.close();
-        // });
-        
-        // var bt_Chat = mainscene.node.getChildByTag(10);
-        // bt_Chat.addClickEventListener(function(sender){
-        //     var buf = "Hello WebSocket中文,\0 I'm\0 a\0 binary\0 message\0.";
-        //     var binary = self._stringConvertToArray(buf);
-        //     api.APILogin(binary.buffer)
-        // });
-
         return true;
     },
-    onopen:function (evt) {
-            cc.log("onopen was fired");
-    },
-    onmessage:function (evt) {
-            cc.log("onmessage was fired");
+    OnSyncLoginResult:function (msg) {
+
+        switch (msg.result) 
+        {
+            case _root.protobuf.LoginResult.Result.OK:
+                cc.director.runScene(new MainScreenScene());
+                break;
+            case _root.protobuf.LoginResult.Result.SERVERERROR:
+            case _root.protobuf.LoginResult.Result.USERNOTFOUND:
+            case _root.protobuf.LoginResult.Result.AUTH_FAILED:
+            case _root.protobuf.LoginResult.Result.ISONFIRE:
+            default:
+                break;
+        }
     },
     _stringConvertToArray:function (strData) {
         if (!strData)
