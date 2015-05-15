@@ -77,6 +77,14 @@ function API() {
 		        api.player = new _root.protobuf.PlayerBaseInfo()
 		        api.player.uid = msg.uid
 		        api.player.name = ""
+		        api.player.level = 0
+		        api.player.experience = 0
+		        api.player.HP = 0
+		        api.player.MP = 0
+		        api.player.Rage = 0
+		        api.player.maxHP = 0
+		        api.player.maxMP = 0
+		        api.player.maxRage = 0
 		        api.APIUpdatePlayerInfo()
 				break;
 			case _root.protobuf.LoginResult.Result.SERVERERROR:
