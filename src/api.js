@@ -156,8 +156,8 @@ function API() {
 			send.append(buffer)
             this.socket.send(send.buffer);
 	};
-	this.OnSyncUpdatePlayerStatusInfo = function(msg) {
-			cc.log("OnSyncUpdatePlayerStatusInfo : " + msg.name)
+	this.OnSyncPlayerBaseInfo = function(msg) {
+			cc.log("OnSyncPlayerBaseInfo : " + msg.name)
 			api.player = msg
 	};
 
