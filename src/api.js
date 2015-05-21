@@ -76,16 +76,8 @@ function API() {
 		        api.timeId = setInterval(function (){api.APIPing()},1000);	
 		        api.player = new _root.protobuf.PlayerBaseInfo()
 		        api.player.uid = msg.uid
-		        api.player.name = ""
-		        api.player.level = 0
-		        api.player.experience = 0
-		        api.player.HP = 0
-		        api.player.MP = 0
-		        api.player.Rage = 0
-		        api.player.maxHP = 0
-		        api.player.maxMP = 0
-		        api.player.maxRage = 0
-		        api.APIUpdatePlayerInfo()
+		        api.player.stat = new _root.protobuf.StatusInfo()
+		        api.APIUpdatePlayerStatusInfo()
 				break;
 			case _root.protobuf.LoginResult.Result.SERVERERROR:
 			case _root.protobuf.LoginResult.Result.USERNOTFOUND:
@@ -153,19 +145,40 @@ function API() {
 	};
 
 
-	this.APIUpdatePlayerInfo = function() {
+	this.APIUpdatePlayerStatusInfo = function() {
 			this.req_id++;
 			var info = api.player
 			var bufferRequest = info.encode()
-			var request = new _root.protobuf.Request({"id":this.req_id,"method":"Connector.UpdatePlayerInfo","serialized_request":bufferRequest.toArrayBuffer()})
+			var request = new _root.protobuf.Request({"id":this.req_id,"method":"Connector.UpdatePlayerStatusInfo","serialized_request":bufferRequest.toArrayBuffer()})
 			var buffer = request.encode()
 			var send = new ProtoBuf.ByteBuffer(buffer.limit+4,ProtoBuf.ByteBuffer.LITTLE_ENDIAN);
 			send.writeInt32(buffer.limit);
 			send.append(buffer)
             this.socket.send(send.buffer);
 	};
-	this.OnSyncPlayerBaseInfo = function(msg) {
-			cc.log("OnSyncUpdatePlayerInfo : " + msg.name)
+	this.OnSyncUpdatePlayerStatusInfo = function(msg) {
+			cc.log("OnSyncUpdatePlayerStatusInfo : " + msg.name)
 			api.player = msg
+	};
+
+	this.APIBattleTest = function() {
+		this.req_id++;
+		var test = new _root.protobuf.BattleTest();
+		var bufferRequest = test.encode()
+		var request = new _root.protobuf.Request({"id":this.req_id,"method":"Connector.BattleTest","serialized_request":bufferRequest.toArrayBuffer()})
+		var buffer = request.encode()
+		var send = new ProtoBuf.ByteBuffer(buffer.limit+4,ProtoBuf.ByteBuffer.LITTLE_ENDIAN);
+		send.writeInt32(buffer.limit);
+		send.append(buffer)
+        this.socket.send(send.buffer);
+	}
+	this.OnSyncNotifyBattleStart = function(msg) {
+			cc.log("OnSyncNotifyBattleStart : " + msg.bid)
+	};
+	this.OnSyncBattleInfo = function(msg) {
+			cc.log("OnSyncBattleInfo : " + msg.bid)
+	};
+	this.OnSyncNotifyBattleEnd = function(msg) {
+			cc.log("OnSyncNotifyBattleEnd")
 	};
 }
